@@ -7,10 +7,10 @@ bool Player::contest()
 	deck.shuffle();
 
 
-	//Dealer gets one card
+	//Dealer gets one card to start
 	Player dealer{ Card::value[deck.dealCard().rank_] };
 
-	//Player gets two cards
+	//Player gets two cards to start
 	score_ += Card::value[deck.dealCard().rank_];
 	score_ += Card::value[deck.dealCard().rank_];
 
@@ -40,6 +40,7 @@ bool Player::contest()
 
 	} while (!stand);
 
+	//Dealer will hit if current score lower than 16
 	while (dealer.score_ < Settings::dealerStop)
 	{
 		Card hit = deck.dealCard();
