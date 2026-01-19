@@ -3,14 +3,14 @@
 #include "Random.h"
 #include "card.h"
 #include "deck.h"
+#include "player.h"
+#include "settings.h"
 
 int main()
 {
-	Deck deck{};
-	std::cout << deck.dealCard() << " " << deck.dealCard() << '\n';
+	Player player{};
 
-	deck.shuffle();
-	std::cout << deck.dealCard() << " " << deck.dealCard() << '\n';
+	(player.contest()) ? (std::cout << "You Win!") : (std::cout << "You Lose!");
 
 	return 0;
 }

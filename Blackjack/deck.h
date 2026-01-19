@@ -3,7 +3,7 @@
 #include "Random.h"
 #include <algorithm>
 
-class Deck
+struct Deck
 {
 public:
 	Deck()
