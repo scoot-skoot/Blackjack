@@ -1,55 +1,78 @@
-# Blackjack CLI Game
+# Blackjack
 
-A simple command-line Blackjack game implemented in C++.  
-The core mechanics allow the player to **hit** or **stand** against a dealer, following classic Blackjack rules.
+A simple Blackjack game implemented in C++ with a headless game engine and two UI options: a console view and an SFML graphical view.
 
 ---
 
 ## Overview
 
-This project was originally inspired by a quiz, but the code has since then been refactored extensively to improve modularity and encapsulation.  
-The core logic and implementation are my own, guided by the quiz prompts but with custom design choices. I plan to continue to expand the game and add features when I have time.
+The game lets you **hit** or **stand** against a dealer following classic Blackjack rules. Game logic is separated from presentation so the same engine powers both the text and graphical interfaces.
 
 ---
 
 ## Design
 
-The game is organized into a few key classes:
+```
+Blackjack/
+├── core/              # Card, Deck, Hand, GameEngine, Settings (no I/O)
+├── views/
+│   ├── ConsoleView    # Text-based UI
+│   └── SfmlView       # Graphical SFML UI
+└── main.cpp           # Selects view via command-line flag
+```
 
-- **Card**: Represents a playing card with rank and suit.
-- **Deck**: A standard 52-card deck with shuffle and deal operations.
-- **Player**: Represents a game participant (dealer or player), managing score and game decisions.
-- **Settings**: Contains game constants like bust value and dealer behavior thresholds.
+- **Card**: Playing card with rank and suit.
+- **Deck**: Standard 52-card deck with shuffle and deal.
+- **Hand**: Tracks dealt cards with soft-ace scoring.
+- **GameEngine**: Headless game state machine (`hit`, `stand`, `newRound`).
+- **ConsoleView / SfmlView**: Read engine state and send player actions.
 
 ---
 
 ## How to Run
 
-1. Build the project with your favorite C++ compiler (C++17 or later required).
-2. Run the resulting executable.
-3. Follow on-screen prompts to hit (`h`) or stand (`s`) during your turn.
-4. The dealer automatically plays after you stand.
-5. The game outputs whether you win or lose.
+### CMake (cross-platform)
+
+```bash
+cmake -B build -S . -DBLACKJACK_BUILD_SFML=ON
+cmake --build build
+```
+
+Console (default):
+
+```bash
+./build/Blackjack
+./build/Blackjack --console
+```
+
+Graphical SFML UI:
+
+```bash
+./build/Blackjack --sfml
+```
+
+On Linux, install SFML first: `sudo apt install libsfml-dev`
+
+### Visual Studio (Windows)
+
+1. Install SFML via [vcpkg](https://vcpkg.io): `vcpkg install sfml`
+2. Open `Blackjack.sln` and link SFML in project settings.
+3. Run with `--console` or `--sfml` as program arguments.
 
 ---
 
-## Features and Limitations
+## Features
 
-- Command-line interface only, no graphics or GUI.
-- Basic gameplay: player can only hit or stand.
-- Dealer behavior follows typical Blackjack rules (hits until score ≥ 16).
-- No betting, splitting, or doubling down.
-- No handling of multiple players.
+- Hit / stand gameplay with dealer auto-play (hits below 16).
+- Soft ace scoring (ace counts as 11 or 1).
+- Console view with input validation.
+- SFML view with card rendering, dealer hole card, Hit/Stand/New Round buttons.
 
----
+## Limitations
 
-## Potential Improvements
-
-- Add betting system and bankroll management.
-- Support multiple players or multiplayer mode.
-- Implement splitting, doubling down, and insurance.
-- Improve input validation and error handling.
-- Add unit tests for game logic.
+- No betting, splitting, doubling down, or insurance.
+- Single player only.
+- SFML cards are drawn programmatically (no image assets).
 
 ---
 
@@ -61,5 +84,4 @@ This code is free to use and modify.
 
 ## Acknowledgements
 
-Inspired by the learncpp.com Blackjack quiz, with extensive refactoring and custom implementation by me.
-
+Inspired by the learncpp.com Blackjack quiz, with extensive refactoring and custom implementation.
